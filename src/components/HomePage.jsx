@@ -64,7 +64,7 @@ const HomePage = () => {
                 } else {
                     const date = moment(new Date()).format('YYYY-MM-DD HH:mm-ss');
                     set(ref(db, `cart/${uid}/${book.isbn}`), {...book, date});
-                    alert('장바구니에 추가되었습니다.');
+                    alert('장바구니에 추가되었습니다!');
                 }
             });
         } else {
