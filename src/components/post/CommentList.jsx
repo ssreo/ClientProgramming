@@ -74,10 +74,11 @@ const CommentList = ({pid}) => {
     };
 
     const onClickDelete = async(id) => {
-        if(window.confirm(`${id}번 댓글을 삭제하시겠습니까?`)) {
-            await deleteDoc(doc(db, 'comment', id));
-        }
-    };
+    const target = list.find(comment => comment.id === id);
+    if (window.confirm(`작성자 ${target?.email}님의 댓글을 삭제하시겠습니까?`)) {
+        await deleteDoc(doc(db, 'comment', id));
+    }
+};
 
     useEffect(() => {
         getList();

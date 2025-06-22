@@ -29,12 +29,19 @@ const ReadPage = () => {
         setLoading(false);
     }
 
-    const onDelete = async() => {
-        if(window.confirm(`${id}번 게시글을 삭제하시겠습니까?`)) {
-            await deleteDoc(doc(db, 'post', id));
-            navi(-1);
-        }
+    const onDelete = async () => {
+    const postRef = doc(db, 'post', id);
+    const postSnap = await getDoc(postRef);
+    const postData = postSnap.exists() ? postSnap.data() : null;
+
+    const author = postData?.email || '작성자';
+    const confirmMsg = `${author}님의 게시글을 삭제하시겠습니까?`;
+
+    if (window.confirm(confirmMsg)) {
+        await deleteDoc(postRef);
+        navi(-1);
     }
+};
 
     useEffect(() => {
         getPost();
