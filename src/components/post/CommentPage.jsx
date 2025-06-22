@@ -5,8 +5,10 @@ import { app } from '../../firebase'
 import { getFirestore, addDoc, collection } from 'firebase/firestore';
 import moment from 'moment';
 import CommentList from './CommentList';
+import { useNavigate } from 'react-router-dom';
 
 const CommentPage = ({id}) => {
+    const navi = useNavigate();
     const db = getFirestore(app);
     const email = sessionStorage.getItem('email');
     const [contents, setContents] = useState('');
@@ -23,8 +25,13 @@ const CommentPage = ({id}) => {
         setContents('');
     };
 
+    const onClickLogin = () => {
+        sessionStorage.setItem('target', `/post/${id}`); 
+        navi('/login');
+    };
+
     return (
-        <div className='my-3'>
+        <div className='my-4'>
             {email ?
                 <Row className='justify-content-center'>
                     <Col md={10}>                        
@@ -41,7 +48,9 @@ const CommentPage = ({id}) => {
                 </Row>
                 :
                 <Row className='justify-content-center'>
-                    <Button className='w-100'>로그인</Button>
+                    <Col md={10}>
+                        <Button onClick={onClickLogin}>로그인</Button>
+                    </Col>
                 </Row>
             }
             <CommentList pid={id}/>
